@@ -81,7 +81,7 @@ export class AuthService {
         });
 
         if (!userModel)
-            throw apiResponse(status.NOT_FOUND, "NOT_FOUND", "User not found");
+            return apiResponse(status.NOT_FOUND, "NOT_FOUND", "User not found");
 
         return apiResponse(
             status.OK,
@@ -89,5 +89,27 @@ export class AuthService {
             "Success get user",
             AuthResponse(userModel)
         );
+    }
+
+    static async refreshToken(request: UserResponse): Promise<ApiResponse> {
+        const { uuid } = request;
+
+        const userModel = await prismaClient.user.findUnique({
+            where: {
+                uuid,
+                is_active: true,
+            },
+        });
+
+        if (!userModel)
+            return apiResponse(status.NOT_FOUND, "NOT_FOUND", "User not found");
+
+        const user: UserResponse = AuthResponse(userModel);
+
+        const accessToken = generateAccessToken(user);
+
+        return apiResponse(status.OK, "OK", "Success generate access token", {
+            accessToken,
+        });
     }
 }

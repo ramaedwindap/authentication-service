@@ -1,15 +1,21 @@
 import bodyParser from "body-parser";
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import { routes } from "../routes";
 import { StatusCodes as status } from "http-status-codes";
 import { apiResponse } from "../utils/api-response";
-import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 import { errorMiddleware } from "../middlewares/error-middleware";
+import morgan from "morgan";
+import compression from "compression";
+import helmet from "helmet";
 
 export const app = express();
+app.use(compression());
+app.use(helmet());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(morgan("dev"));
 
 app.use("/api", routes);
 

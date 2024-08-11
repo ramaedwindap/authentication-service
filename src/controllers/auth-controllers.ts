@@ -30,8 +30,17 @@ export class AuthController {
     static async getProfile(req: Request, res: Response, next: NextFunction) {
         try {
             const request: UserResponse = req.user as UserResponse;
-            console.log(request, "=====");
             const serviceResponse = await AuthService.getProfile(request);
+            res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static async refreshToken(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request: UserResponse = req.user as UserResponse;
+            const serviceResponse = await AuthService.refreshToken(request);
             res.status(serviceResponse.code).json(serviceResponse);
         } catch (e) {
             next(e);
