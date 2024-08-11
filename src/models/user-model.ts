@@ -5,7 +5,7 @@ export type UserResponse = {
     username: string;
     email: string;
     provider: string;
-    is_active: boolean;
+    is_active?: boolean;
     provider_id?: string;
     created_at?: string;
     updated_at?: string;
@@ -30,6 +30,5 @@ export function AuthResponse(user: User): UserResponse {
         username: user.username,
         email: user.email,
         provider: user.provider,
-        is_active: user.is_active,
     };
 }
