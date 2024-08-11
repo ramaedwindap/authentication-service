@@ -1,7 +1,7 @@
 {
-    "name": "prismaex",
+    "name": "ramaedwindap",
     "version": "1.0.0",
-    "description": "",
+    "description": "Authentication system using Express, Prisma, TypeScript, JWT, and Bcrypt.",
     "main": "index.js",
     "scripts": {
         "test": "jest --runInBand",

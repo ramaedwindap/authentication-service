@@ -4,15 +4,21 @@ import { routes } from "../routes";
 import { StatusCodes as status } from "http-status-codes";
 import { apiResponse } from "../utils/api-response";
 import { errorMiddleware } from "../middlewares/error-middleware";
+import { notFoundRequest } from "../middlewares/not-found";
 import morgan from "morgan";
 import compression from "compression";
 import helmet from "helmet";
 
 export const app = express();
+
 app.use(compression());
+
 app.use(helmet());
+
 app.use(express.json());
+
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
@@ -20,19 +26,9 @@ app.use(morgan("dev"));
 app.use("/api", routes);
 
 app.get("/", (_req: Request, res: Response) =>
-    res.status(status.OK).json(apiResponse(status.OK, "OK", "Welcome to app."))
+    res.status(status.OK).json(apiResponse(status.OK, "OK", "Hello World! 🚀"))
 );
 
-app.use((_req: Request, res: Response) =>
-    res
-        .status(status.NOT_FOUND)
-        .json(
-            apiResponse(
-                status.NOT_FOUND,
-                "NOT_FOUND",
-                "The requested resource could not be found."
-            )
-        )
-);
+app.use(notFoundRequest);
 
 app.use(errorMiddleware);
