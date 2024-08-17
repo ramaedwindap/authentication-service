@@ -91,7 +91,12 @@ PORT=3001
 Start the application:
 
 ```sh
-npm run dev
+npm run build
+```
+then
+
+```sh
+npm run start
 ```
 
 The application will start on the port defined in the `.env` file (default is `3001`).
